@@ -12,7 +12,7 @@
                 <div><dt class="label">Correo</dt><dd>{{ $lead->email }}</dd></div>
                 <div><dt class="label">Teléfono</dt><dd>{{ $lead->phone ?? '—' }}</dd></div>
                 <div><dt class="label">Empresa</dt><dd>{{ $lead->company ?? '—' }}</dd></div>
-                <div><dt class="label">Servicio</dt><dd>{{ config('rejas.service_types')[$lead->service_type] ?? $lead->service_type }}</dd></div>
+                <div><dt class="label">Servicio</dt><dd>{{ config('rejas.service_types')[$lead->service_type] ?? $lead->service_type }}@if($lead->plan_interest) · Plan {{ config('rejas.workshop.plans.'.$lead->plan_interest.'.name', $lead->plan_interest) }}@endif</dd></div>
                 <div><dt class="label">Origen</dt><dd>{{ $lead->source }} · {{ $lead->created_at->format('d/m/Y H:i') }}</dd></div>
                 <div><dt class="label">Cliente</dt><dd>@if($lead->client)<a class="link" href="{{ route('panel.clients.show', $lead->client) }}">{{ $lead->client->displayName() }}</a>@else — @endif</dd></div>
             </dl>

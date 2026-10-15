@@ -20,7 +20,7 @@ return [
         'inventario' => 'Sistema de inventario',
         'escolar' => 'Gestión escolar',
         'finanzas' => 'Finanzas y facturación',
-        'taller' => 'Gestión de talleres',
+        'taller' => 'Sistema para talleres',
         'soporte' => 'Soporte y mantenimiento',
         'otro' => 'Otro',
     ],
@@ -39,10 +39,48 @@ return [
         ['title' => 'Finanzas', 'text' => 'Ingresos, gastos, cuentas por cobrar, flujo de caja y reportes.'],
     ],
 
-    // Planes referenciales: no se cobran en la web; se acuerdan directamente con cada cliente.
-    'plans' => [
-        ['name' => 'Presencia', 'from' => 'Desde S/ 1,500', 'items' => ['Sitio web a medida', 'Formulario de contacto', 'SEO básico', 'Hosting el primer año']],
-        ['name' => 'Sistema', 'from' => 'Desde S/ 6,000', 'items' => ['Módulos según tu proceso', 'Usuarios y permisos', 'Reportes y exportaciones', 'Capacitación']],
-        ['name' => 'Soporte', 'from' => 'Desde S/ 250 / mes', 'items' => ['Mantenimiento y respaldos', 'Mejoras menores', 'Monitoreo', 'Atención prioritaria']],
+    /*
+    | Impuestos en precios publicados. Mientras no se defina el régimen tributario:
+    | 'ninguno' → no se menciona el IGV; 'incluido' → "Incluye IGV"; 'adicional' → "+ IGV".
+    */
+    'tax_display' => env('REJAS_TAX_DISPLAY', 'ninguno'),
+
+    /*
+    | Producto: sistema para talleres (suscripción). La web NO procesa pagos.
+    | El pago único (licencia + mantenimiento) no se publica: solo se ofrece en persona.
+    */
+    'workshop' => [
+        'name' => 'Sistema para talleres',
+        'trial_days' => 30,
+        'setup_fee' => 200,          // instalación y migración de datos; gratis al contratar
+        'annual_months_charged' => 10, // pago anual adelantado: 12 meses por el precio de 10
+        'plans' => [
+            'basico' => [
+                'name' => 'Básico',
+                'monthly' => 99,
+                'users' => '2 usuarios',
+                'features' => ['Órdenes de trabajo', 'Clientes y vehículos', 'Historial por vehículo'],
+            ],
+            'pro' => [
+                'name' => 'Pro',
+                'monthly' => 179,
+                'users' => '5 usuarios',
+                'highlight' => true,
+                'features' => ['Todo lo del Básico', 'Inventario de repuestos', 'Cotizaciones en PDF', 'Recordatorios por WhatsApp', 'Reportes de ganancias'],
+            ],
+            'premium' => [
+                'name' => 'Premium',
+                'monthly' => 299,
+                'users' => 'Usuarios ilimitados',
+                'features' => ['Todo lo del Pro', 'Varias sedes', 'Bot de WhatsApp'],
+            ],
+        ],
+        // Testimonio: activar solo con autorización escrita del cliente.
+        'testimonial' => [
+            'enabled' => env('REJAS_TESTIMONIAL_ENABLED', false),
+            'business' => 'Calle Autocenter',
+            'quote' => null,
+            'video_url' => env('REJAS_TESTIMONIAL_VIDEO'),
+        ],
     ],
 ];

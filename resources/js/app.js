@@ -48,3 +48,18 @@ document.addEventListener('submit', (e) => {
     const msg = e.target.dataset.confirm;
     if (msg && !window.confirm(msg)) e.preventDefault();
 });
+
+// Suscripciones: completa el monto según plan y periodicidad.
+const planSelect = document.querySelector('[data-plan-select]');
+if (planSelect) {
+    const periodicity = document.querySelector('[data-periodicity]');
+    const amount = document.querySelector('[data-amount]');
+    const fill = () => {
+        const opt = planSelect.selectedOptions[0];
+        if (!opt?.value || !amount) return;
+        const value = periodicity?.value === 'anual' ? opt.dataset.annual : opt.dataset.monthly;
+        if (value) amount.value = parseFloat(value).toFixed(2);
+    };
+    planSelect.addEventListener('change', fill);
+    periodicity?.addEventListener('change', fill);
+}

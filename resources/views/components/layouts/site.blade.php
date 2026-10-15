@@ -26,7 +26,7 @@
                 <a href="{{ route('home') }}#servicios" class="block py-2 text-sm text-mist hover:text-white">Servicios</a>
                 <a href="{{ route('home') }}#soluciones" class="block py-2 text-sm text-mist hover:text-white">Soluciones</a>
                 <a href="{{ route('home') }}#proyectos" class="block py-2 text-sm text-mist hover:text-white">Proyectos</a>
-                <a href="{{ route('home') }}#planes" class="block py-2 text-sm text-mist hover:text-white">Planes</a>
+                <a href="{{ route('workshop') }}" class="block py-2 text-sm text-mist hover:text-white">Talleres</a>
                 <a href="{{ route('inquiry.create') }}" class="btn-site mt-2 bg-electric text-white hover:bg-electric-700 md:mt-0">Solicitar cotización</a>
             </div>
         </nav>

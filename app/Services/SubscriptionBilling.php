@@ -31,7 +31,7 @@ class SubscriptionBilling
                             ['due_date' => $subscription->next_due_date, 'amount' => $subscription->amount, 'status' => 'por_cobrar'],
                         );
                         $created += (int) $charge->wasRecentlyCreated;
-                        $subscription->next_due_date = $subscription->next_due_date->copy()->addMonthNoOverflow();
+                        $subscription->next_due_date = $subscription->nextPeriodStart($subscription->next_due_date);
                     }
                     $subscription->save();
                 });

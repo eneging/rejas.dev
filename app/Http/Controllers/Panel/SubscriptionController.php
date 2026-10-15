@@ -47,6 +47,7 @@ class SubscriptionController extends Controller
             'service' => ['required', 'string', 'max:200'],
             'amount' => ['required', 'numeric', 'min:0.01'],
             'currency' => ['required', 'in:PEN,USD'],
+            'periodicity' => ['required', Rule::in(array_keys(Subscription::PERIODICITIES))],
             'starts_at' => ['required', 'date'],
             'notes' => ['nullable', 'string', 'max:2000'],
         ]);

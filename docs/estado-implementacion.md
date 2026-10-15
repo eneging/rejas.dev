@@ -28,6 +28,24 @@ Referencia: roadmap del [documento maestro](documento-maestro.md) (§14). Actual
 - Exportación de tabla y calendario filtrados (fase 2) — 🟡 CSV compatible con Excel (UTF-8, `;`, filtros y zona horaria en cabecera)
 - Experiencia interactiva: "R" 3D en CSS que sigue al cursor, scroll narrativo, `prefers-reduced-motion`, versión sin JS (fase 3) — ✅ versión ligera
 
+## Oferta comercial: sistema para talleres
+
+Basada en el plan de ventas (precios configurados en `config/rejas.php` → `workshop`):
+
+- Planes Básico S/99, Pro S/179 y Premium S/299 al mes; anual adelantado = 12 meses por 10 (S/990, S/1,790, S/2,990).
+- 30 días de prueba gratis, sin contrato. Instalación y migración (S/200) gratis al contratar.
+- Página `/talleres` y sección en la portada; el formulario registra el plan de interés del prospecto.
+- Panel: planes "Talleres Básico/Pro/Premium" con precio mensual y anual; suscripciones con periodicidad mensual o anual.
+- El pago único (licencia + mantenimiento) **no se publica**; solo se ofrece en persona.
+
+Por definir:
+
+- [ ] **IGV**: depende del régimen tributario (NRUS no cobra IGV ni emite facturas). Cambiar `REJAS_TAX_DISPLAY` a `incluido` o `adicional` cuando se defina.
+- [ ] **Precio de la licencia** del pago único: con S/2,500 + S/700/año sale más barata que la suscripción desde el 2.º año. Recomendado ≥ S/4,500 o mantenimiento ≥ S/1,200/año.
+- [ ] **Tope de mensajes de WhatsApp** por plan (la API de WhatsApp Business cobra por mensaje).
+- [ ] **Testimonio de Calle Autocenter**: activar con `REJAS_TESTIMONIAL_ENABLED=true` solo con autorización escrita.
+- [ ] Número de WhatsApp para los botones "Probar gratis" (`REJAS_WHATSAPP`).
+
 ## Pendiente
 
 - [ ] Exportación nativa `.xlsx` y PDF (p. ej. `maatwebsite/excel` y `barryvdh/laravel-dompdf`) y PDF de cotizaciones/contratos generados en cola.

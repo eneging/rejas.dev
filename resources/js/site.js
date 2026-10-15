@@ -54,3 +54,12 @@ if (header) {
 document.querySelector('[data-menu-toggle]')?.addEventListener('click', () => {
     document.querySelector('[data-menu]')?.classList.toggle('hidden');
 });
+
+// Formulario: el plan de interés solo aplica al sistema para talleres.
+const serviceSelect = document.querySelector('#service_type');
+const planField = document.querySelector('[data-plan-field]');
+if (serviceSelect && planField) {
+    const toggle = () => planField.classList.toggle('hidden', serviceSelect.value !== 'taller');
+    serviceSelect.addEventListener('change', toggle);
+    toggle();
+}

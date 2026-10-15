@@ -13,7 +13,7 @@
                 <tr>
                     <td class="whitespace-nowrap">{{ $lead->created_at->format('d/m/Y') }}</td>
                     <td><a href="{{ route('panel.leads.show', $lead) }}" class="font-medium hover:text-electric">{{ $lead->name }}</a>@if($lead->company)<p class="text-xs text-slate-500">{{ $lead->company }}</p>@endif</td>
-                    <td>{{ config('rejas.service_types')[$lead->service_type] ?? $lead->service_type }}</td>
+                    <td>{{ config('rejas.service_types')[$lead->service_type] ?? $lead->service_type }}@if($lead->plan_interest)<p class="text-xs text-slate-500">Plan {{ config('rejas.workshop.plans.'.$lead->plan_interest.'.name', $lead->plan_interest) }}</p>@endif</td>
                     <td class="text-xs">{{ $lead->email }}<br>{{ $lead->phone }}</td>
                     <td>{{ $lead->assignee?->name ?? '—' }}</td>
                     <td><x-status-badge :status="$lead->status" :label="$lead->statusLabel()" /></td>

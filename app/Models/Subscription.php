@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,6 +14,8 @@ class Subscription extends Model
     use HasFactory, SoftDeletes;
 
     public const STATUSES = ['activa' => 'Activa', 'suspendida' => 'Suspendida', 'cancelada' => 'Cancelada'];
+
+    public const PERIODICITIES = ['mensual' => 'Mensual', 'anual' => 'Anual (pago adelantado)'];
 
     protected $guarded = ['id'];
 
@@ -39,6 +42,16 @@ class Subscription extends Model
     public function charges(): HasMany
     {
         return $this->hasMany(SubscriptionCharge::class)->orderByDesc('period_start');
+    }
+
+    public function nextPeriodStart(CarbonInterface $from): CarbonInterface
+    {
+        return $this->periodicity === 'anual' ? $from->copy()->addYearNoOverflow() : $from->copy()->addMonthNoOverflow();
+    }
+
+    public function periodicityLabel(): string
+    {
+        return self::PERIODICITIES[$this->periodicity] ?? $this->periodicity;
     }
 
     public function statusLabel(): string

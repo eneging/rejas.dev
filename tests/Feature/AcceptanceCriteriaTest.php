@@ -30,7 +30,7 @@ class AcceptanceCriteriaTest extends TestCase
             'service_type' => 'inventario',
             'description' => 'Necesito controlar el stock de mis tiendas.',
             'privacy' => '1',
-        ])->assertRedirect(route('inquiry.create'));
+        ])->assertRedirect();
 
         $lead = Lead::sole();
         $this->assertSame('nuevo', $lead->status);

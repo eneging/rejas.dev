@@ -17,6 +17,8 @@ class InquiryController extends Controller
         return view('site.inquiry', [
             'serviceTypes' => config('rejas.service_types'),
             'selected' => $request->query('servicio'),
+            'plans' => config('rejas.workshop.plans'),
+            'selectedPlan' => $request->query('plan'),
         ]);
     }
 
@@ -32,6 +34,7 @@ class InquiryController extends Controller
             'phone' => ['nullable', 'string', 'max:30'],
             'company' => ['nullable', 'string', 'max:160'],
             'service_type' => ['required', Rule::in(array_keys(config('rejas.service_types')))],
+            'plan' => ['nullable', Rule::in(array_keys(config('rejas.workshop.plans')))],
             'description' => ['required', 'string', 'min:10', 'max:3000'],
             'privacy' => ['accepted'],
             'marketing' => ['nullable', 'boolean'],
@@ -47,6 +50,7 @@ class InquiryController extends Controller
                 'phone' => $data['phone'] ?? null,
                 'company' => $data['company'] ?? null,
                 'service_type' => $data['service_type'],
+                'plan_interest' => $data['plan'] ?? null,
                 'description' => $data['description'],
                 'source' => 'web',
             ]);
@@ -62,6 +66,10 @@ class InquiryController extends Controller
             $lead->consents()->create($evidence + ['type' => 'marketing', 'accepted' => $request->boolean('marketing')]);
         });
 
-        return redirect()->route('inquiry.create')->with('status', '¡Gracias! Recibimos tu solicitud y te contactaremos pronto.');
+        $message = $data['service_type'] === 'taller'
+            ? '¡Listo! Te contactaremos para activar tu prueba gratis de '.config('rejas.workshop.trial_days').' días.'
+            : '¡Gracias! Recibimos tu solicitud y te contactaremos pronto.';
+
+        return back()->with('status', $message);
     }
 }

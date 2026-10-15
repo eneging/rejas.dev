@@ -48,6 +48,16 @@
                     @error('service_type')<p class="mt-1 text-sm text-red-400">{{ $message }}</p>@enderror
                 </div>
 
+                <div data-plan-field>
+                    <label for="plan" class="mb-2 block text-sm text-mist">Plan de interés (sistema para talleres)</label>
+                    <select id="plan" name="plan" class="site-input">
+                        <option value="" class="bg-ink">Aún no lo sé</option>
+                        @foreach ($plans as $key => $plan)
+                            <option value="{{ $key }}" class="bg-ink" @selected(old('plan', $selectedPlan) === $key)>{{ $plan['name'] }} · S/{{ $plan['monthly'] }}/mes</option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <div>
                     <label for="description" class="mb-2 block text-sm text-mist">Describe lo que necesitas *</label>
                     <textarea id="description" name="description" rows="6" required class="site-input" placeholder="¿Qué problema quieres resolver? ¿Tienes una fecha objetivo?">{{ old('description') }}</textarea>

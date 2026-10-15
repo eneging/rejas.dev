@@ -109,23 +109,19 @@
         </div>
     </section>
 
-    {{-- Planes referenciales --}}
+    {{-- Sistema para talleres --}}
     <section id="planes" class="scroll-mt-16 bg-slate-ink py-24 sm:py-32">
         <div class="site-container">
-            <p class="eyebrow" data-reveal>Planes referenciales</p>
-            <h2 class="mt-4 text-3xl font-bold sm:text-5xl" data-reveal="1">Cada proyecto se cotiza a medida</h2>
-            <div class="mt-14 grid gap-6 md:grid-cols-3">
-                @foreach ($plans as $i => $plan)
-                    <article class="flex flex-col rounded-2xl border border-white/10 bg-ink/60 p-8" data-reveal="{{ $i }}">
-                        <h3 class="text-lg font-semibold">{{ $plan['name'] }}</h3>
-                        <p class="mt-2 font-display text-2xl font-bold text-electric-400">{{ $plan['from'] }}</p>
-                        <ul class="mt-6 flex-1 space-y-2 text-sm text-mist">
-                            @foreach ($plan['items'] as $line)<li class="flex gap-2"><span class="text-electric">—</span>{{ $line }}</li>@endforeach
-                        </ul>
-                    </article>
-                @endforeach
+            <div class="flex flex-wrap items-end justify-between gap-6">
+                <div>
+                    <p class="eyebrow" data-reveal>{{ config('rejas.workshop.name') }}</p>
+                    <h2 class="mt-4 max-w-2xl text-3xl font-bold sm:text-5xl" data-reveal="1">Sabe cuánto ganas por cada carro</h2>
+                    <p class="mt-4 max-w-xl text-mist" data-reveal="2">Órdenes de trabajo, repuestos y avisos por WhatsApp en un solo lugar. {{ config('rejas.workshop.trial_days') }} días gratis, sin contrato.</p>
+                </div>
+                <a href="{{ route('workshop') }}" class="text-sm font-medium text-electric-400 hover:text-white" data-reveal="2">Ver todo sobre el sistema →</a>
             </div>
-            <p class="mt-6 text-xs text-mist/70">Precios referenciales en soles, no incluyen impuestos. La propuesta final depende del alcance. Los pagos se acuerdan directamente con cada cliente; esta web no procesa pagos.</p>
+            <div class="mt-14"><x-workshop-plans :plans="$workshopPlans" /></div>
+            <p class="mt-6 text-xs text-mist/70">¿Necesitas un sistema para otro rubro o a medida? <a href="{{ route('inquiry.create') }}" class="underline hover:text-white">Lo cotizamos según tu proyecto</a>.</p>
         </div>
     </section>
 

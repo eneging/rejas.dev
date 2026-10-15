@@ -8,6 +8,7 @@ use App\Models\PortfolioProject;
 use App\Models\ProjectTemplate;
 use App\Models\Role;
 use App\Models\Subscription;
+use App\Models\SubscriptionPlan;
 use App\Models\Task;
 use App\Models\User;
 use App\Services\ProjectBuilder;
@@ -38,7 +39,7 @@ class DemoSeeder extends Seeder
             $p->payments()->create(['client_id' => $taller->id, 'payment_schedule_id' => $p->paymentSchedules()->first()->id, 'paid_at' => now()->subDays(19), 'amount' => 4000, 'method' => 'transferencia', 'reference' => 'OP-102938']);
 
             $billing->generateDueCharges();
-            Subscription::create(['client_id' => $taller->id, 'service' => 'Soporte y hosting del sistema de inventario', 'amount' => 400, 'starts_at' => now()->subMonths(2)->startOfMonth(), 'next_due_date' => now()->subMonths(2)->startOfMonth()]);
+            Subscription::create(['client_id' => $taller->id, 'service' => 'Sistema para talleres · Plan Pro', 'amount' => 179, 'subscription_plan_id' => SubscriptionPlan::where('name', 'Talleres Pro')->value('id'), 'starts_at' => now()->subMonths(2)->startOfMonth(), 'next_due_date' => now()->subMonths(2)->startOfMonth()]);
             $billing->generateDueCharges();
         }
 

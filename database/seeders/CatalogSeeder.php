@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\FinancialCategory;
 use App\Models\ProjectTemplate;
 use App\Models\SubscriptionPlan;
+use App\Support\Pricing;
 use Illuminate\Database\Seeder;
 
 class CatalogSeeder extends Seeder
@@ -40,9 +41,18 @@ class CatalogSeeder extends Seeder
             }
         }
 
-        foreach ([['Soporte básico', 250], ['Soporte y hosting', 400], ['Soporte prioritario', 800]] as [$name, $amount]) {
-            SubscriptionPlan::updateOrCreate(['name' => $name], ['monthly_amount' => $amount, 'currency' => 'PEN']);
+        $names = [];
+        foreach (Pricing::workshopPlans() as $plan) {
+            $names[] = $name = 'Talleres '.$plan['name'];
+            SubscriptionPlan::updateOrCreate(['name' => $name], [
+                'description' => implode(', ', $plan['features']).' · '.$plan['users'],
+                'monthly_amount' => $plan['monthly'],
+                'annual_amount' => $plan['annual'],
+                'currency' => 'PEN',
+                'is_active' => true,
+            ]);
         }
+        SubscriptionPlan::whereNotIn('name', $names)->update(['is_active' => false]);
 
         foreach (['Hosting y dominios', 'Licencias y software', 'Servicios de terceros', 'Publicidad', 'Equipos', 'Otros'] as $name) {
             FinancialCategory::firstOrCreate(['name' => $name, 'type' => 'gasto']);

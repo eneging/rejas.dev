@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Models\PortfolioProject;
+use App\Support\Pricing;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -13,8 +14,16 @@ class HomeController extends Controller
         return view('site.home', [
             'services' => config('rejas.services'),
             'sectors' => config('rejas.sectors'),
-            'plans' => config('rejas.plans'),
+            'workshopPlans' => Pricing::workshopPlans(),
             'portfolio' => PortfolioProject::where('is_published', true)->orderBy('position')->get(),
+        ]);
+    }
+
+    public function workshop(): View
+    {
+        return view('site.workshop', [
+            'plans' => Pricing::workshopPlans(),
+            'workshop' => config('rejas.workshop'),
         ]);
     }
 

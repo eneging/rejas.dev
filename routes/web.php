@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 | Sitio público (portafolio + captación). No procesa pagos.
 */
 Route::get('/', [Site\HomeController::class, 'index'])->name('home');
+Route::get('/talleres', [Site\HomeController::class, 'workshop'])->name('workshop');
 Route::get('/portafolio/{portfolioProject}', [Site\HomeController::class, 'caseStudy'])->name('portfolio.show');
 Route::get('/cotizar', [Site\InquiryController::class, 'create'])->name('inquiry.create');
 Route::post('/cotizar', [Site\InquiryController::class, 'store'])->middleware('throttle:5,1')->name('inquiry.store');

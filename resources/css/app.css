@@ -1,0 +1,75 @@
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/space-grotesk';
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Identidad Rejas.dev (documento maestro §9) */
+@theme {
+    --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Space Grotesk Variable', 'Inter Variable', ui-sans-serif, sans-serif;
+
+    --color-ink: #080b12;        /* Negro profundo */
+    --color-electric: #2563eb;   /* Azul eléctrico */
+    --color-slate-ink: #111827;  /* Azul grisáceo oscuro */
+    --color-mist: #94a3b8;       /* Gris secundario */
+
+    --color-electric-50: #eff6ff;
+    --color-electric-100: #dbeafe;
+    --color-electric-400: #60a5fa;
+    --color-electric-600: #2563eb;
+    --color-electric-700: #1d4ed8;
+}
+
+@layer base {
+    html { -webkit-font-smoothing: antialiased; }
+    h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
+    :focus-visible { outline: 2px solid var(--color-electric); outline-offset: 2px; }
+}
+
+@utility btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition disabled:opacity-50;
+}
+
+@layer components {
+    /* Panel */
+    .btn-primary { @apply btn bg-electric text-white hover:bg-electric-700; }
+    .btn-secondary { @apply btn border border-slate-300 bg-white text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800; }
+    .btn-danger { @apply btn border border-red-200 bg-white text-red-700 hover:bg-red-50; }
+    .btn-sm { @apply px-3 py-1.5 text-xs; }
+    .card { @apply rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900; }
+    .label { @apply mb-1 block text-xs font-medium tracking-wide text-slate-600 uppercase dark:text-slate-400; }
+    .input { @apply block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-xs focus:border-electric focus:ring-2 focus:ring-electric/20 focus:outline-none dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100; }
+    .table { @apply w-full text-left text-sm; }
+    .table thead th { @apply border-b border-slate-200 px-3 py-2.5 text-xs font-semibold tracking-wide whitespace-nowrap text-slate-500 uppercase dark:border-slate-800; }
+    .table tbody td { @apply border-b border-slate-100 px-3 py-3 align-middle dark:border-slate-800/70; }
+    .table tbody tr:hover { @apply bg-slate-50/70 dark:bg-slate-800/40; }
+    .badge { @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium whitespace-nowrap; }
+    .page-title { @apply text-2xl font-semibold text-slate-900 dark:text-white; }
+    .muted { @apply text-sm text-slate-500 dark:text-slate-400; }
+    .link { @apply font-medium text-electric hover:underline; }
+
+    /* Sitio público */
+    .site-container { @apply mx-auto w-full max-w-6xl px-5 sm:px-8; }
+    .eyebrow { @apply font-display text-xs font-semibold tracking-[0.3em] text-electric-400 uppercase; }
+    .btn-site { @apply inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition; }
+    .site-input { @apply block w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-mist/60 focus:border-electric focus:ring-2 focus:ring-electric/30 focus:outline-none; }
+}
+
+/* Scroll narrativo: el contenido es visible por defecto; solo se anima si hay JS y no se pide reducir movimiento. */
+.js-motion [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+.js-motion [data-reveal].is-visible { opacity: 1; transform: none; }
+
+/* Objeto conceptual "R" (alternativa ligera en CSS 3D) */
+.r-stage { perspective: 1200px; }
+.r-object { transform-style: preserve-3d; transition: transform .25s ease-out; will-change: transform; }
+.r-layer { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; line-height: 1; user-select: none; }
+.r-glow { background: radial-gradient(closest-side, rgb(37 99 235 / .45), transparent 70%); filter: blur(30px); }
+.grid-bg { background-image: linear-gradient(rgb(148 163 184 / .06) 1px, transparent 1px), linear-gradient(90deg, rgb(148 163 184 / .06) 1px, transparent 1px); background-size: 56px 56px; }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}

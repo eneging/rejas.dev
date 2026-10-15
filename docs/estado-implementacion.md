@@ -44,6 +44,8 @@ Referencia: roadmap del [documento maestro](documento-maestro.md) (§14). Actual
 
 ## Decisiones tomadas (revisables)
 
+- Base de datos por defecto: MySQL/MariaDB (`docker-compose.yml` incluye MySQL 8.4). Verificado en MariaDB 10.11: migraciones, seed y las 33 pruebas.
+
 - El semáforo usa la **entrega interna** (meta de gestión) y, si no existe, la contractual. "Entregado" cuenta como finalizado para el semáforo.
 - Si alguna tarea no tiene estimación, el avance usa peso 1 para todas (no se mezclan horas con unidades).
 - Un usuario puede tener varios roles; los permisos se suman.

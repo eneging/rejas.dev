@@ -11,7 +11,24 @@ permissions:
 jobs:
   tests:
     runs-on: ubuntu-latest
-    name: Pint, build y pruebas
+    name: Pruebas (${{ matrix.db }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        db: [mysql, sqlite]
+
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: rejas_test
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot"
+          --health-interval=5s --health-timeout=5s --health-retries=10
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -41,6 +58,13 @@ jobs:
         run: npm run build
 
       - name: Pruebas
+        env:
+          DB_CONNECTION: ${{ matrix.db }}
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: ${{ matrix.db == 'mysql' && 'rejas_test' || ':memory:' }}
+          DB_USERNAME: root
+          DB_PASSWORD: root
         run: |
           cp .env.example .env
           php artisan key:generate

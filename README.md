@@ -6,16 +6,16 @@ La especificación completa está en [`docs/documento-maestro.md`](docs/document
 
 ## Stack
 
-Monolito modular: **Laravel 13 + PHP 8.3**, MySQL/MariaDB (SQLite en desarrollo), Blade, **Tailwind CSS 4** y JavaScript sin framework. Tipografías Space Grotesk (títulos) e Inter (interfaz).
+Monolito modular: **Laravel 13 + PHP 8.3**, **MySQL 8 / MariaDB 10.11+**, Blade, **Tailwind CSS 4** y JavaScript sin framework. Tipografías Space Grotesk (títulos) e Inter (interfaz).
 
 ## Puesta en marcha
 
 ```bash
 composer install
 npm install
-cp .env.example .env
+cp .env.example .env                    # viene configurado para MySQL (base `rejas`, usuario `rejas` / `secret`)
 php artisan key:generate
-touch database/database.sqlite          # o configura DB_* para MySQL/MariaDB
+docker compose up -d                    # MySQL 8.4 local (o usa tu propio MySQL/MariaDB y ajusta DB_* en .env)
 php artisan migrate --seed              # roles, permisos, plantillas, admin y datos demo (solo en local)
 npm run build                           # o: npm run dev
 php artisan serve
@@ -26,14 +26,25 @@ php artisan serve
 
 El seeder crea el administrador con `ADMIN_EMAIL` / `ADMIN_PASSWORD` del `.env`; si `ADMIN_PASSWORD` está vacío genera una contraseña aleatoria y la muestra en consola. En entorno `local` también crea datos demo (`SEED_DEMO=true`) con los usuarios `secretaria@eduarrejas.com` y `dev@eduarrejas.com` (contraseña `password`).
 
+Sin Docker, crea la base y el usuario en tu MySQL/MariaDB:
+
+```sql
+CREATE DATABASE rejas CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'rejas'@'localhost' IDENTIFIED BY 'secret';
+GRANT ALL ON rejas.* TO 'rejas'@'localhost';
+```
+
 Tareas programadas: en producción configura el cron de Laravel (`* * * * * php artisan schedule:run`). Genera a diario los cargos "por cobrar" de las suscripciones (`php artisan rejas:generar-cargos`).
 
 ## Pruebas
 
 ```bash
-php artisan test
-vendor/bin/pint     # formato
+php artisan test                                    # rápido, SQLite en memoria (sin configurar nada)
+DB_CONNECTION=mysql DB_DATABASE=rejas_test php artisan test   # contra MySQL (la base rejas_test la crea docker compose)
+vendor/bin/pint                                     # formato
 ```
+
+El CI ejecuta la suite contra MySQL 8.4 y contra SQLite.
 
 Las pruebas cubren los criterios mínimos de aceptación del documento maestro (§15), la regla de avance, el semáforo y un recorrido de todas las pantallas del panel con cada rol.
 
